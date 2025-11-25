@@ -1,0 +1,166 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Форма отзыва — DRIVE DOCS{% endblock %}
+{% block nav_reviews_active %}active{% endblock %}
+
+{% block content %}
+
+<section class="review-form-wrap">
+  <h1 class="review-form-title">Данные для отзыва</h1>
+
+  <p class="review-form-text">
+    Пожалуйста, укажите данные по вашему заказу. Эти данные нужны только для проверки,
+    что вы действительно получили водительское удостоверение через сервис
+    <strong>DRIVE DOCS</strong>.
+  </p>
+
+  <form method="post" class="review-form">
+    {% csrf_token %}
+
+    <!-- Номер заказа -->
+    <div class="form-group">
+      <label for="order_number">Номер вашего заказа</label>
+      <input
+        type="text"
+        id="order_number"
+        name="order_number"
+        placeholder="Например: 2024-00037"
+        required
+      >
+    </div>
+
+    <!-- Имя менеджера -->
+    <div class="form-group">
+      <label for="manager_name">Имя менеджера, который вас вёл</label>
+      <input
+        type="text"
+        id="manager_name"
+        name="manager_name"
+        placeholder="Например: Андрей"
+        required
+      >
+    </div>
+
+    <!-- Категория прав -->
+    <div class="form-group">
+      <label for="category">Категория водительского удостоверения</label>
+      <select id="category" name="category" required>
+        <option value="" disabled selected>Выберите категорию</option>
+        <option value="B">B</option>
+        <option value="A1">A1</option>
+        <option value="B+A1">B + A1</option>
+        <option value="other">Другая категория</option>
+      </select>
+    </div>
+
+    <button type="submit" class="review-form-btn">
+      Отправить данные для отзыва
+    </button>
+
+    <p class="review-form-note">
+      После проверки данных менеджер свяжется с вами или отправит ссылку
+      на форму для текста отзыва.
+    </p>
+  </form>
+</section>
+
+<style>
+.review-form-wrap {
+  max-width: 640px;
+  margin: 20px auto 0;
+  padding: 26px 22px 30px;
+  background: rgba(15,23,42,0.94);
+  border-radius: 20px;
+  border: 1px solid rgba(148,163,184,0.7);
+  box-shadow: 0 24px 70px rgba(15,23,42,0.95);
+}
+
+.review-form-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.review-form-text {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 22px;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  opacity: 0.95;
+}
+
+.form-group input,
+.form-group select {
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid rgba(148,163,184,0.8);
+  background: rgba(15,23,42,0.95);
+  color: #e5e7eb;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input::placeholder {
+  color: rgba(148,163,184,0.7);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: rgba(56,189,248,0.9);
+  box-shadow: 0 0 0 1px rgba(56,189,248,0.4);
+}
+
+.review-form-btn {
+  margin-top: 6px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #020617;
+  box-shadow: 0 10px 26px rgba(34,197,94,0.45);
+  transition: 0.2s;
+}
+
+.review-form-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(34,197,94,0.65);
+}
+
+.review-form-note {
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: 0.75;
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  .review-form-wrap {
+    padding: 22px 16px 26px;
+  }
+  .review-form-title {
+    font-size: 22px;
+  }
+}
+</style>
+
+{% endblock %}

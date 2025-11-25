@@ -1,0 +1,658 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}DRIVE DOCS{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 10% 0%, #1b3c73 0%, #050816 55%, #02030a 100%);
+      color: #f5f5f5;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    /* HEADER + NAV */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img {
+      height: 202px; /* увеличенное лого на десктопе */
+      width: auto;
+      border-radius: 6px;
+      object-fit: contain;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .logo-title {
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #4adeff, #22c55e);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .logo-subtitle {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      font-size: 14px;
+      background: rgba(15,23,42,0.8);
+      padding: 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.5);
+    }
+
+    .nav-link {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover {
+      border-color: rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      opacity: 1;
+    }
+
+    .nav-link.active {
+      border-color: rgba(56,189,248,0.9);
+      background: radial-gradient(circle at 0% 0%, rgba(56,189,248,0.2), rgba(15,23,42,0.95));
+      opacity: 1;
+    }
+
+    .header-contact {
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+      gap: 2px;
+      font-size: 13px;
+    }
+
+    .header-contact span.phone {
+      font-weight: 600;
+    }
+
+    .header-contact span.tag {
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    /* HERO / GENERAL LAYOUT */
+    .hero {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: 32px;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero-text h1 span {
+      background: linear-gradient(90deg, #4ade80, #22c55e, #a3e635);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-text p {
+      font-size: 15px;
+      max-width: 480px;
+      opacity: 0.9;
+      margin-bottom: 18px;
+    }
+
+    .hero-highlight {
+      font-size: 13px;
+      background: rgba(15, 23, 42, 0.9);
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      margin-bottom: 18px;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .hero-highlight-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .badge {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #4ade80, #22c55e);
+      color: #020617;
+      box-shadow: 0 8px 30px rgba(34, 197, 94, 0.45);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 36px rgba(34, 197, 94, 0.65);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(15, 23, 42, 0.8);
+      transform: translateY(-1px);
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.25) 0%, rgba(15, 23, 42, 0.96) 38%, rgba(15, 23, 42, 1) 100%);
+      border-radius: 20px;
+      padding: 20px 18px 22px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow: 0 25px 70px rgba(15, 23, 42, 0.9);
+    }
+
+    .hero-card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hero-card-sub {
+      font-size: 12px;
+      opacity: 0.82;
+      margin-bottom: 14px;
+    }
+
+    .license-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .license-card {
+      border-radius: 14px;
+      padding: 12px 10px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 64, 175, 0.98));
+      border: 1px solid rgba(129, 140, 248, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .license-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 120% -20%, rgba(59, 130, 246, 0.8), transparent 55%);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .license-type {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.9;
+      margin-bottom: 4px;
+    }
+
+    .license-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .license-info {
+      font-size: 11px;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+
+    /* Общие секции */
+    .section {
+      margin-top: 40px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    /* Карточки шагов (главная) */
+    .steps-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+    }
+
+    .step-item {
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 12px 14px;
+      font-size: 13px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .step-number {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .step-text {
+      flex: 1;
+      line-height: 1.35;
+    }
+
+    /* Карточки статуса (страница статус) */
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .status-card {
+      background: rgba(15,23,42,0.93);
+      border-radius: 18px;
+      padding: 16px 18px;
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: 0 20px 55px rgba(15,23,42,0.9);
+    }
+
+    .status-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .status-label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.75;
+      font-size: 11px;
+    }
+
+    .status-id {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .status-category {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .status-stage {
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .stage-wait     { color: #fbbf24; }
+    .stage-check    { color: #38bdf8; }
+    .stage-ready    { color: #4ade80; }
+    .stage-transfer { color: #a855f7; }
+
+    /* Reviews grid */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-top: 10px;
+    }
+
+    .review-card {
+      background: rgba(15, 23, 42, 0.92);
+      border-radius: 18px;
+      padding: 16px 18px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.95);
+      font-size: 13px;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+
+    .review-order {
+      font-weight: 600;
+    }
+
+    .review-time {
+      opacity: 0.8;
+    }
+
+    .review-text {
+      font-size: 13px;
+      line-height: 1.5;
+      opacity: 0.95;
+    }
+
+    .reviews-pagination {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      font-size: 13px;
+    }
+
+    .page-label {
+      opacity: 0.8;
+      margin-right: 4px;
+    }
+
+    .page-link {
+      min-width: 28px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      text-align: center;
+      cursor: pointer;
+      opacity: 0.85;
+      transition: 0.15s;
+      text-decoration: none;
+    }
+
+    .page-link:hover {
+      background: rgba(15,23,42,0.9);
+      opacity: 1;
+    }
+
+    .page-link.active {
+      border-color: rgba(56,189,248,0.9);
+      background: radial-gradient(circle at 0% 0%, rgba(56,189,248,0.2), rgba(15,23,42,0.95));
+      opacity: 1;
+    }
+
+    /* 🔻 АДАПТАЦИЯ ПОД МОБИЛКУ 🔻 */
+    @media (max-width: 800px) {
+      /* твои исходные правила — оставил как есть */
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-text h1 {
+        font-size: 26px;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .header-contact {
+        text-align: left;
+      }
+      .nav {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+
+      /* добавил сверху адаптивные плюшки */
+      .page {
+        padding: 16px 12px 32px;
+      }
+
+      .logo-img {
+        height: 120px; /* на телефоне не такое огромное, но всё ещё крупное */
+      }
+
+      .logo-block {
+        justify-content: flex-start;
+      }
+
+      .hero-text p {
+        font-size: 14px;
+      }
+
+      .license-grid,
+      .status-grid,
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 800px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .page {
+    padding: 14px 12px 28px;
+  }
+
+  /* ЛОГО */
+  .logo-block {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .logo-img {
+    height: 140px;    /* чуть меньше, чем десктоп */
+    max-width: 90%;
+  }
+
+  /* HEADER */
+  .header {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .header-contact {
+    text-align: center;
+  }
+
+  /* НАВИГАЦИЯ */
+  .nav {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 13px;
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .nav-link {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  /* HERO */
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 26px;
+  }
+
+  .hero-text h1 {
+    font-size: 24px;
+  }
+
+  .hero-text p {
+    font-size: 14px;
+    margin: 0 auto 16px;
+  }
+
+  .hero-badges {
+    justify-content: center;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  /* ГРИДЫ КАРТОЧЕК: ЛИЦЕНЗИИ / СТАТУСЫ / ОТЗЫВЫ */
+  .license-grid,
+  .status-grid,
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .license-card,
+  .status-card,
+  .review-card {
+    padding: 14px 16px;
+  }
+
+  /* ШАГИ НА ГЛАВНОЙ */
+  .steps-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .step-item {
+    padding: 14px 16px;
+  }
+
+  /* Пагинация */
+  .reviews-pagination {
+    justify-content: center;
+  }
+
+  .page-link {
+    padding: 5px 9px;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Шапка -->
+    <header class="header">
+      <div class="logo-block">
+        <img src="{% static 'main/img/logo.png' %}" alt="DRIVE DOCS logo" class="logo-img">
+      </div>
+
+      <nav class="nav">
+        <a href="{% url 'home' %}"    class="nav-link {% block nav_home_active %}{% endblock %}">Главная</a>
+        <a href="{% url 'about' %}"   class="nav-link {% block nav_about_active %}{% endblock %}">О нас</a>
+        <a href="{% url 'status' %}"  class="nav-link {% block nav_status_active %}{% endblock %}">Проверить статус</a>
+        <a href="{% url 'reviews' %}" class="nav-link {% block nav_reviews_active %}{% endblock %}">Отзывы наших клиентов</a>
+        <a href="{% url 'add_review' %}" class="nav-link {% block nav_add_reviews_active %}{% endblock %}">Оставить отзыв</a>
+
+      </nav>
+
+      <div class="header-contact">
+        <span class="phone">tg: @drive_docs</span>
+        <span class="tag">Безопасный сервис оформления водительских прав • Пн–Вс 9:00–23:00</span>
+      </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+  </div>
+</body>
+</html>

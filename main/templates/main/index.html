@@ -1,0 +1,112 @@
+{% extends 'main/base.html' %}
+{% block title %}Получение водительских прав — DRIVE DOCS{% endblock %}
+{% block nav_home_active %}active{% endblock %}
+...
+
+
+{% block content %}
+<main class="hero">
+  <!-- Левая часть -->
+  <section class="hero-text">
+    <h1>
+      Оформление<br>
+      водительских прав <span>в один шаг</span>
+    </h1>
+
+    <div class="hero-highlight">
+      <span class="hero-highlight-dot"></span>
+      <span>Сервис по оформлению водительских прав — без каких-либо теоретических и практических тестов.</span>
+    </div>
+
+    <p>
+      На этом сайте вы можете ознакомиться с нашей компанией
+      и получить информацию о статусе водительского удостоверения для категорий B и A1.
+    </p>
+
+    <div class="hero-badges">
+      <div class="badge">Готовые права в течение 10 рабочих дней</div>
+      <div class="badge">Оплата за наши услуги происходит только после получения прав</div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="{% url 'status' %}" class="btn btn-secondary">Проверить статус прав</a>
+    </div>
+  </section>
+
+  <!-- Правая карточка -->
+  <aside class="hero-card">
+    <div class="hero-card-title">
+      <span>Выбор категории прав</span>
+      <span style="font-size: 11px; opacity: 0.8;">личный кабинет</span>
+    </div>
+    <div class="hero-card-sub">
+      Для заказа наших услуг отпишите нашему менеджеру или в наш официальный чат бот в Telegram.
+    </div>
+
+    <div class="license-grid">
+      <!-- Авто -->
+      <div class="license-card">
+        <div class="license-type">Категория B</div>
+        <div class="license-title">Права на легковой автомобиль</div>
+        <div class="license-info">
+          Управление легковыми транспортными средствами массой до 3500 кг и
+          количеством мест до 8, не считая водителя.
+        </div>
+        <div class="license-price"></div>
+        <div class="license-label"></div>
+        <div class="license-status"><span></span></div>
+      </div>
+
+      <!-- Скутер -->
+      <div class="license-card">
+        <div class="license-type">Категория A1</div>
+        <div class="license-title">Права на скутер / мопед</div>
+        <div class="license-info">
+          Право управления скутерами и мопедами с рабочим объёмом двигателя
+          до 125 см³ и мощностью до 11 кВт.
+        </div>
+        <div class="license-price"></div>
+        <div class="license-label"></div>
+        <div class="license-status"><span></span></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="section">
+  <div class="section-title">Как выглядит процесс оплаты и получения прав</div>
+
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-text">
+        Каждому клиенту закрепляется личный менеджер, который ведёт процесс до получения водительских прав на руки.
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-text">
+        Как только права зарегистрированы, вас уведомляют, и вы можете проверить регистрацию на официальных сервисах.
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-text">
+        Все персональные данные защищены на каждом этапе оформления и взаимодействия с сервисом.
+      </div>
+    </div>
+
+    <div class="step-item">
+      <div class="step-number">4</div>
+      <div class="step-text">
+        Готовое водительское удостоверение выдаётся лично в руки в крупных городах или доставляется курьером в регионы.
+      </div>
+    </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

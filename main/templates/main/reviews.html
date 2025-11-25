@@ -1,0 +1,127 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Отзывы наших клиентов — DRIVE DOCS{% endblock %}
+{% block nav_reviews_active %}active{% endblock %}
+
+{% block content %}
+
+<main>
+  <h1 style="font-size:28px;font-weight:700;margin-bottom:10px;">
+    Отзывы наших клиентов
+  </h1>
+
+  <p style="font-size:14px;opacity:0.9;max-width:650px;margin-bottom:24px;line-height:1.5;">
+    Ниже представлены отзывы клиентов сервиса DRIVE DOCS. Каждый отзыв содержит номер заказа
+    и дату, когда была оставлена обратная связь.
+  </p>
+
+  <!-- Сетка отзывов -->
+  <section class="reviews-grid">
+    {% for review in page_obj %}
+      <article class="review-card">
+        <header class="review-header">
+          <div class="review-order">Заказ № {{ review.order }}</div>
+          <div class="review-time">{{ review.time }}</div>
+        </header>
+        <p class="review-text">{{ review.text }}</p>
+      </article>
+    {% endfor %}
+  </section>
+
+  <!-- Пагинация -->
+  {% if page_obj.paginator.num_pages > 1 %}
+  <nav class="reviews-pagination" aria-label="Пагинация отзывов">
+    <span class="page-label">Страницы:</span>
+
+    {% for page_num in page_obj.paginator.page_range %}
+      {% if page_num == page_obj.number %}
+        <a href="?page={{ page_num }}" class="page-link active">{{ page_num }}</a>
+      {% else %}
+        <a href="?page={{ page_num }}" class="page-link">{{ page_num }}</a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+  {% endif %}
+</main>
+
+<style>
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-top: 10px;
+  }
+
+  .review-card {
+    background: rgba(15, 23, 42, 0.92);
+    border-radius: 18px;
+    padding: 16px 18px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.95);
+    font-size: 13px;
+  }
+
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    opacity: 0.9;
+    margin-bottom: 6px;
+  }
+
+  .review-order {
+    font-weight: 600;
+  }
+
+  .review-time {
+    opacity: 0.8;
+  }
+
+  .review-text {
+    font-size: 13px;
+    line-height: 1.5;
+    opacity: 0.95;
+  }
+
+  /* Пагинация */
+  .reviews-pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    font-size: 13px;
+  }
+
+  .page-label {
+    opacity: 0.8;
+    margin-right: 4px;
+  }
+
+  .page-link {
+    min-width: 28px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(148,163,184,0.6);
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.85;
+    transition: 0.15s;
+    text-decoration: none;
+  }
+
+  .page-link:hover {
+    background: rgba(15,23,42,0.9);
+    opacity: 1;
+  }
+
+  .page-link.active {
+    border-color: rgba(56,189,248,0.9);
+    background: radial-gradient(circle at 0% 0%, rgba(56,189,248,0.2), rgba(15,23,42,0.95));
+    opacity: 1;
+  }
+
+</style>
+
+{% endblock %}
