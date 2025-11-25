@@ -2,23 +2,25 @@ from pathlib import Path
 import os
 
 # ----------------------------------------------------
-# BASE
+# BASE PATHS
 # ----------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET_KEY: в проде задашь через переменную окружения
-SECRET_KEY = os.getenv(
-    "DJANGO_SECRET_KEY",
-    "dev-insecure-key-change-me"  # на проде ЭТО НЕ ИСПОЛЬЗОВАТЬ
-)
+# ----------------------------------------------------
+# SECURITY & DEBUG
+# ----------------------------------------------------
 
-# DEBUG: локально True, на хостинге поставишь DJANGO_DEBUG=False
-DEBUG = os.getenv("DJANGO_DEBUG", "False") == "False"
+# SECRET_KEY: для продакшена передаётся через переменную окружения
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-insecure-key-change-me")
 
-# ALLOWED_HOSTS: список доменов, через запятую в переменной
-# пример: DJANGO_ALLOWED_HOSTS=drivedocs.site,127.0.0.1,localhost
+# DEBUG:
+# Локально = True
+# На Render = DJANGO_DEBUG=False
+DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
+
+# ALLOWED HOSTS:
+# Render передаст домен, либо ты можешь прописать вручную
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-
 
 # ----------------------------------------------------
 # APPS
@@ -31,9 +33,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    "main",   # твоё приложение
+    "main",
 ]
-
 
 # ----------------------------------------------------
 # MIDDLEWARE
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
 
-    # WhiteNoise — раздача статики в проде
+    # Static files handler for production
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -52,9 +53,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
 ROOT_URLCONF = "invest.urls"
-
 
 # ----------------------------------------------------
 # TEMPLATES
@@ -62,7 +61,7 @@ ROOT_URLCONF = "invest.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],  # шаблоны лежат в main/templates/main — APP_DIRS=True их найдёт
+        "DIRS": [],  # templates inside main/templates/main
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -74,9 +73,7 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = "invest.wsgi.application"
-
 
 # ----------------------------------------------------
 # DATABASE
@@ -88,7 +85,6 @@ DATABASES = {
     }
 }
 
-
 # ----------------------------------------------------
 # PASSWORDS
 # ----------------------------------------------------
@@ -99,7 +95,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-
 # ----------------------------------------------------
 # I18N / TIMEZONE
 # ----------------------------------------------------
@@ -108,24 +103,18 @@ TIME_ZONE = "Europe/Kiev"
 USE_I18N = True
 USE_TZ = True
 
-
 # ----------------------------------------------------
-# STATIC FILES (CSS, JS, IMG)
+# STATIC FILES
 # ----------------------------------------------------
-# URL, по которому статика отдаётся
 STATIC_URL = "/static/"
 
-# Папка с исходной статикой в проекте (у тебя: main/static/main/...)
 STATICFILES_DIRS = [
     BASE_DIR / "main" / "static",
 ]
 
-# Куда collectstatic будет собирать все файлы (для прод-сервера)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# WhiteNoise сторедж — чтобы нормально кэшировалось в проде
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 
 # ----------------------------------------------------
 # DEFAULT AUTO FIELD
